@@ -1,0 +1,1839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Asset Tracker &amp; Supply Chain Agent Revenue Playbook</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+/* ─── CSS Variables ─────────────────────────────────────────────── */
+    :root {
+      --cream:       #f8ede6;
+      --purple:      #3d2646;
+      --red:         #ff0032;
+      --pink:        #fbd6d2;
+      --white:       #ffffff;
+      --gray-light:  #f4f4f4;
+      --gray-mid:    #d1d1d1;
+      --gray-text:   #5a5a5a;
+      --purple-light:#5c3870;
+
+      --font:        'Poppins', sans-serif;
+      --radius-sm:   8px;
+      --radius-md:   16px;
+      --radius-lg:   24px;
+      --shadow:      0 4px 24px rgba(61,38,70,.10);
+      --shadow-lg:   0 8px 40px rgba(61,38,70,.16);
+
+      --nav-height:  72px;
+      --section-gap: 80px;
+      --max-w:       1120px;
+    }
+
+    /* ─── Reset & Base ──────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font);
+      background: var(--cream);
+      color: var(--purple);
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    /* ─── Typography Scale ──────────────────────────────────────────── */
+    h1 { font-size: clamp(2rem, 5vw, 3.5rem);  font-weight: 800; line-height: 1.15; }
+    h2 { font-size: clamp(1.6rem, 3.5vw, 2.5rem); font-weight: 700; line-height: 1.2;  }
+    h3 { font-size: clamp(1.1rem, 2vw, 1.4rem);   font-weight: 600; line-height: 1.3;  }
+    h4 { font-size: 1rem;  font-weight: 600; }
+    p  { font-size: .975rem; color: var(--gray-text); }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ─── Utility ───────────────────────────────────────────────────── */
+    .container { width: 100%; max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }
+
+    .text-red    { color: var(--red); }
+    .text-white  { color: var(--white); }
+    .text-purple { color: var(--purple); }
+
+    .highlight { color: var(--red); }
+
+    .section-label {
+      display: inline-block;
+      background: var(--red);
+      color: var(--white);
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: 6px 18px;
+      border-radius: 50px;
+      margin-bottom: 20px;
+    }
+
+    .section-label.dark {
+      background: var(--purple);
+    }
+
+    /* ─── Fade-in animation ─────────────────────────────────────────── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .55s ease, transform .55s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─── Sticky Navigation ─────────────────────────────────────────── */
+    #main-nav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: var(--purple);
+      box-shadow: 0 2px 16px rgba(0,0,0,.25);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: var(--nav-height);
+      gap: 24px;
+    }
+
+    /* Logo */
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .nav-logo svg { height: 28px; width: auto; max-width: 160px; }
+
+    /* Module Tabs */
+    .nav-tabs {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .nav-tab {
+      padding: 8px 20px;
+      border-radius: 50px;
+      font-size: .85rem;
+      font-weight: 600;
+      color: rgba(255,255,255,.92);
+      cursor: pointer;
+      transition: all .25s ease;
+      border: 2px solid transparent;
+      white-space: nowrap;
+      background: transparent;
+    }
+
+    .nav-tab:hover {
+      color: var(--white);
+      background: rgba(255,255,255,.08);
+    }
+
+    .nav-tab.active {
+      color: var(--white);
+      border-color: var(--red);
+      background: rgba(255,0,50,.15);
+    }
+
+    /* Progress Bar */
+    #progress-bar-wrap {
+      height: 4px;
+      background: rgba(255,255,255,.12);
+      position: relative;
+    }
+
+    #progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--red), #ff6b8a);
+      transition: width .1s linear;
+      border-radius: 0 4px 4px 0;
+    }
+
+    /* ─── Module Sections (show/hide) ──────────────────────────────── */
+    .module-section { display: none; }
+    .module-section.active { display: block; }
+
+    /* ─── Hero Section ──────────────────────────────────────────────── */
+    .module-hero {
+      background: var(--purple);
+      padding: 100px 0 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .module-hero::before {
+      content: '';
+      position: absolute;
+      top: -120px; right: -120px;
+      width: 500px; height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,0,50,.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .module-hero::after {
+      content: '';
+      position: absolute;
+      bottom: -80px; left: -80px;
+      width: 350px; height: 350px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(251,214,210,.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 780px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,0,50,.18);
+      border: 1px solid rgba(255,0,50,.35);
+      color: #ff6b8a;
+      font-size: .78rem;
+      font-weight: 600;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 50px;
+      margin-bottom: 28px;
+    }
+
+    .hero-badge-dot {
+      width: 6px; height: 6px;
+      background: var(--red);
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .module-hero h1 {
+      color: var(--white);
+      margin-bottom: 16px;
+    }
+
+    .module-hero h1 .highlight { color: var(--red); }
+
+    .hero-sub {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      color: rgba(255,255,255,.7);
+      font-weight: 400;
+      margin-bottom: 32px;
+    }
+
+    .hero-intro {
+      font-size: 1rem;
+      color: rgba(255,255,255,.88);
+      max-width: 620px;
+      line-height: 1.8;
+      margin-bottom: 48px;
+    }
+
+    /* Hero Stats Bar */
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px 32px;
+    }
+
+    .hero-stat {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .hero-stat-value {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--red);
+      line-height: 1;
+    }
+
+    .hero-stat-label {
+      font-size: .78rem;
+      font-weight: 500;
+      color: rgba(255,255,255,.82);
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+
+    /* ─── Generic Section Wrapper ───────────────────────────────────── */
+    .content-section {
+      padding: var(--section-gap) 0;
+    }
+
+    .content-section.bg-white { background: var(--white); }
+    .content-section.bg-cream { background: var(--cream); }
+    .content-section.bg-purple { background: var(--purple); }
+    .content-section.bg-pink  { background: var(--pink); }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    .section-header h2 { margin-bottom: 12px; }
+    .section-header p  { font-size: 1rem; max-width: 620px; margin: 0 auto; }
+
+    /* ─── Card Grid ─────────────────────────────────────────────────── */
+    .card-grid {
+      display: grid;
+      gap: 24px;
+    }
+
+    .card-grid-3 { grid-template-columns: repeat(3, 1fr); }
+    .card-grid-2 { grid-template-columns: repeat(2, 1fr); }
+    .card-grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+    /* ─── Card Base ─────────────────────────────────────────────────── */
+    .card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      box-shadow: var(--shadow);
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .card.dark {
+      background: var(--purple);
+      color: var(--white);
+    }
+
+    .card.dark p { color: rgba(255,255,255,.92); }
+
+    .card.accent {
+      border: 2px solid var(--red);
+    }
+
+    .card-icon {
+      width: 48px; height: 48px;
+      background: var(--pink);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 20px;
+      flex-shrink: 0;
+    }
+
+    .card h3 { margin-bottom: 10px; }
+
+    /* ─── Stat Cards ────────────────────────────────────────────────── */
+    .stat-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 36px 28px;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .stat-card .stat-num {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      color: var(--red);
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+
+    .stat-card p {
+      font-size: .875rem;
+      font-weight: 500;
+      color: var(--gray-text);
+    }
+
+    /* ─── Button ────────────────────────────────────────────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 28px;
+      border-radius: 50px;
+      font-family: var(--font);
+      font-size: .9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .2s ease;
+      border: 2px solid transparent;
+    }
+
+    .btn-primary {
+      background: var(--red);
+      color: var(--white);
+      border-color: var(--red);
+    }
+
+    .btn-primary:hover {
+      background: #cc0028;
+      border-color: #cc0028;
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--white);
+      border-color: rgba(255,255,255,.4);
+    }
+
+    .btn-outline:hover {
+      background: rgba(255,255,255,.1);
+      border-color: var(--white);
+    }
+
+    .btn-outline-dark {
+      background: transparent;
+      color: var(--purple);
+      border-color: var(--purple);
+    }
+
+    .btn-outline-dark:hover {
+      background: var(--purple);
+      color: var(--white);
+    }
+
+    /* ─── Divider ───────────────────────────────────────────────────── */
+    .divider {
+      width: 60px; height: 4px;
+      background: var(--red);
+      border-radius: 4px;
+      margin: 16px auto 0;
+    }
+
+    .divider.left { margin-left: 0; }
+
+    /* ─── Quote / Callout Block ─────────────────────────────────────── */
+    .callout {
+      border-left: 4px solid var(--red);
+      padding: 20px 24px;
+      background: var(--pink);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      margin: 24px 0;
+    }
+
+    .callout p {
+      font-size: 1rem;
+      font-style: italic;
+      color: var(--purple);
+      font-weight: 500;
+    }
+
+    .callout cite { color: #7a2f3e !important; }
+    .callout .source-note { color: #7a2f3e !important; }
+
+    /* ─── Responsive ────────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .card-grid-3 { grid-template-columns: repeat(2, 1fr); }
+      .card-grid-4 { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 640px) {
+      .card-grid-3,
+      .card-grid-2,
+      .card-grid-4 { grid-template-columns: 1fr; }
+
+      .nav-tabs { gap: 4px; }
+      .nav-tab  { padding: 6px 12px; font-size: .78rem; }
+      .hero-stats { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    }
+
+    /* ── Name Entry Overlay ─────────────────────────────────────────── */
+    .name-overlay {
+      position: fixed; inset: 0; z-index: 9999;
+      background: var(--purple);
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px;
+    }
+    .nol-card {
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: var(--radius-lg);
+      padding: 48px 40px;
+      max-width: 480px; width: 100%;
+      text-align: center;
+    }
+    .nol-logo { margin-bottom: 24px; }
+    .nol-badge {
+      display: inline-block;
+      background: rgba(255,0,50,.2); color: #ff8fa3;
+      border: 1px solid rgba(255,0,50,.4);
+      font-size: .72rem; font-weight: 700; letter-spacing: .08em;
+      text-transform: uppercase; padding: 5px 14px; border-radius: 50px;
+      margin-bottom: 20px;
+    }
+    .nol-card h2 { color: var(--white); font-size: 1.6rem; margin-bottom: 12px; }
+    .nol-sub { color: rgba(255,255,255,.88); font-size: .92rem; margin-bottom: 28px; line-height: 1.6; }
+    .nol-input {
+      width: 100%; padding: 14px 18px;
+      border: 2px solid rgba(255,255,255,.2);
+      border-radius: var(--radius-sm);
+      background: rgba(255,255,255,.08);
+      color: var(--white); font-family: var(--font); font-size: 1rem;
+      outline: none; transition: border-color .2s;
+      margin-bottom: 12px;
+    }
+    .nol-input::placeholder { color: rgba(255,255,255,.35); }
+    .nol-input:focus { border-color: var(--red); }
+
+    /* ── Certification Screen ────────────────────────────────────────── */
+    .cert-screen {
+      position: fixed; inset: 0; z-index: 9998;
+      background: rgba(61,38,70,.92);
+      backdrop-filter: blur(4px);
+      display: flex; align-items: flex-start; justify-content: center;
+      padding: 20px; overflow-y: auto;
+    }
+    .cert-confetti {
+      position: fixed; inset: 0; pointer-events: none; z-index: 9997; overflow: hidden;
+    }
+    .confetti-piece {
+      position: absolute; top: -10px;
+      width: 10px; height: 14px; border-radius: 2px;
+      animation: confetti-fall linear forwards;
+    }
+    @keyframes confetti-fall {
+      0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+    }
+    .cert-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 32px 32px 0;
+      max-width: 580px; width: 100%;
+      text-align: center;
+      box-shadow: 0 24px 80px rgba(0,0,0,.5);
+      position: relative; z-index: 9999;
+      animation: cert-pop .5s cubic-bezier(.175,.885,.32,1.275) forwards;
+      overflow: hidden;
+      margin: auto 0;
+    }
+    @keyframes cert-pop {
+      from { opacity:0; transform:scale(.8); }
+      to   { opacity:1; transform:scale(1); }
+    }
+    .cert-header { background: var(--purple); border-radius: var(--radius-md); padding: 20px 24px; margin-bottom: 28px; display:flex; flex-direction:column; align-items:center; gap:8px; }
+    .cert-badge-line { color: rgba(255,255,255,.88); font-size: .75rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+    .cert-seal {
+      width: 72px; height: 72px;
+      background: linear-gradient(135deg, var(--red), #ff6b8a);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 16px;
+      box-shadow: 0 8px 24px rgba(255,0,50,.35);
+      animation: pulse-seal 2s ease infinite;
+    }
+    @keyframes pulse-seal { 0%,100%{box-shadow:0 8px 24px rgba(255,0,50,.35)} 50%{box-shadow:0 8px 40px rgba(255,0,50,.6)} }
+    .cert-seal svg { stroke: var(--white); }
+    .cert-presents { font-size: .85rem; color: var(--gray-text); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 8px; }
+    .cert-name { font-size: clamp(1.8rem,4vw,2.8rem); font-weight: 800; color: var(--purple); margin-bottom: 8px; line-height: 1.1; }
+    .cert-course { font-size: .9rem; color: var(--gray-text); margin-bottom: 6px; }
+    .cert-title { font-size: clamp(1rem,2vw,1.3rem); color: var(--red); font-weight: 700; margin-bottom: 8px; }
+    .cert-subtitle { font-size: .8rem; color: var(--gray-mid); margin-bottom: 24px; }
+    .cert-modules { display: flex; flex-direction: column; gap: 6px; margin-bottom: 20px; }
+    .cert-module { display: flex; align-items: center; gap: 8px; font-size: .85rem; color: var(--purple); background: #e8f9ef; border-radius: var(--radius-sm); padding: 8px 16px; }
+    .cert-module svg { stroke: #2ecc71; flex-shrink: 0; }
+    .cert-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 16px; }
+    .cert-instructions { font-size: .85rem; color: var(--gray-text); line-height: 1.8; margin-top: 8px; padding: 12px 16px; background: var(--pink); border-radius: var(--radius-sm); text-align: center; }
+
+
+    /* Cert banners */
+    .cert-banners {
+      margin-top: 20px;
+      margin-left: -40px;
+      margin-right: -40px;
+      margin-bottom: -40px;
+      overflow: hidden;
+      line-height: 0;
+      border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    }
+    .cert-banner-img {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    /* Print overrides — 1-page cert */
+    @media print {
+      @page { margin: 0.3in; size: letter portrait; }
+      body > *:not(#cert-screen) { display: none !important; }
+      .cert-screen {
+        position: static !important;
+        background: none !important;
+        padding: 0 !important;
+        backdrop-filter: none !important;
+        display: block !important;
+        overflow: visible !important;
+      }
+      /* Hide confetti container AND all confetti pieces */
+      .cert-confetti,
+      .confetti-piece,
+      .cert-actions { display: none !important; }
+      .cert-card {
+        box-shadow: none !important;
+        animation: none !important;
+        max-width: 100% !important;
+        padding: 24px 24px 0 24px !important;
+        page-break-inside: avoid;
+        break-inside: avoid;
+        overflow: hidden !important;
+      }
+      .cert-header { padding: 14px 20px !important; margin-bottom: 14px !important; }
+      /* Fix seal: force circular clip, no animation, exact color */
+      .cert-seal {
+        width: 60px !important;
+        height: 60px !important;
+        margin-bottom: 10px !important;
+        animation: none !important;
+        border-radius: 50% !important;
+        overflow: hidden !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        box-shadow: none !important;
+        background: linear-gradient(135deg, #ff0032, #ff6b8a) !important;
+      }
+      .cert-seal svg { width: 28px !important; height: 28px !important; }
+      .cert-name { font-size: 1.8rem !important; }
+      .cert-modules { margin-bottom: 12px !important; gap: 6px !important; }
+      .cert-instructions {
+        margin-top: 6px !important;
+        padding: 8px 12px !important;
+        font-size: .75rem !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      .cert-banners {
+        margin-left: -24px !important;
+        margin-right: -24px !important;
+        margin-bottom: 0 !important;
+        margin-top: 14px !important;
+      }
+      .cert-banner-img {
+        max-height: 90px !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+    }
+
+    /* ══ Module 2 Styles ═══════════════════════════════════════════════════ */
+
+    /* Positioning callout */
+    .positioning-callout { display:grid; grid-template-columns:auto 1fr; gap:40px; align-items:center; background:var(--cream); border:2px solid var(--pink); border-radius:var(--radius-lg); padding:40px; }
+    .pc-visual { display:flex; align-items:center; gap:12px; flex-shrink:0; }
+    .pc-layer { display:flex; flex-direction:column; align-items:center; gap:8px; background:var(--purple); border-radius:var(--radius-md); padding:16px 20px; min-width:90px; }
+    .pc-layer svg { stroke:rgba(255,255,255,.7); }
+    .pc-layer span { font-size:.72rem; font-weight:700; color:rgba(255,255,255,.7); text-align:center; letter-spacing:.05em; text-transform:uppercase; }
+    .pc-layer-2 { background:var(--red); }
+    .pc-layer-2 svg { stroke:var(--white); }
+    .pc-layer-2 span { color:var(--white); }
+    .pc-layer-3 { background:rgba(46,204,113,.15); border:2px solid #2ecc71; }
+    .pc-layer-3 svg { stroke:#2ecc71; }
+    .pc-layer-3 span { color:#2ecc71; }
+    .pc-arrow { display:flex; align-items:center; color:var(--gray-mid); }
+    .pc-arrow svg { stroke:var(--gray-mid); }
+    .pc-text h3 { font-size:1.2rem; color:var(--purple); margin-bottom:12px; }
+    .pc-text p { font-size:.95rem; color:var(--purple); line-height:1.75; }
+    .pc-quote { font-size:.875rem; font-style:italic; color:var(--purple); background:var(--white); border-left:3px solid var(--red); padding:14px 18px; border-radius:0 var(--radius-sm) var(--radius-sm) 0; margin-top:16px; }
+    .pc-quote cite { display:block; font-size:.72rem; color:var(--gray-mid); margin-top:6px; font-style:normal; }
+
+    /* Maturity track */
+    .maturity-track { display:grid; grid-template-columns:1fr auto 1fr auto 1fr auto 1fr; gap:8px; align-items:start; }
+    .maturity-step { display:flex; flex-direction:column; align-items:center; gap:0; }
+    .ms-num { width:40px; height:40px; border-radius:50%; background:var(--gray-mid); color:var(--white); font-weight:800; font-size:1rem; display:flex; align-items:center; justify-content:center; flex-shrink:0; z-index:1; }
+    .ms-num-star { background:var(--red); display:flex; align-items:center; justify-content:center; }
+    .ms-num-star svg { stroke:var(--white); }
+    .ms-layer1 .ms-num { background:var(--purple); }
+    .ms-layer2 .ms-num { background:var(--red); }
+    .ms-connector { width:2px; height:20px; background:var(--gray-mid); flex-shrink:0; }
+    .ms-layer1 .ms-connector { background:var(--purple); }
+    .ms-layer2 .ms-connector { background:var(--red); }
+    .ms-body { background:var(--white); border-radius:var(--radius-md); padding:20px; text-align:center; box-shadow:var(--shadow); width:100%; }
+    .ms-layer2 .ms-body { border:2px solid var(--red); background:#fff5f5; }
+    .ms-tag { font-size:.65rem; font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:var(--gray-text); background:var(--gray-light); padding:3px 10px; border-radius:50px; margin-bottom:8px; display:inline-block; }
+    .ms-tag-active { background:var(--purple); color:var(--white); }
+    .ms-tag-sca { background:var(--red); color:var(--white); }
+    .ms-body h4 { font-size:.95rem; color:var(--purple); margin-bottom:6px; }
+    .ms-body p { font-size:.8rem; color:#4a3050; line-height:1.55; margin-bottom:10px; }
+    .ms-cost { font-size:.72rem; font-weight:600; color:var(--gray-text); display:flex; align-items:center; gap:5px; justify-content:center; }
+    .ms-layer1 .ms-cost svg, .ms-layer2 .ms-cost svg { stroke:#2ecc71; }
+    .ms-inactive .ms-cost svg { stroke:#e74c3c; }
+    .maturity-arrow { display:flex; align-items:center; margin-top:20px; color:var(--gray-mid); }
+    .maturity-arrow svg { stroke:var(--gray-mid); }
+
+    /* Data engine */
+    .data-engine { display:grid; grid-template-columns:1fr auto 1fr auto 1fr auto 1fr; gap:8px; align-items:stretch; }
+    .de-card { background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.12); border-radius:var(--radius-md); padding:24px 18px; text-align:center; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; }
+    .de-card svg { stroke:var(--red); margin-bottom:10px; }
+    .de-card h3 { color:var(--white); font-size:.95rem; margin-bottom:8px; }
+    .de-card p { color:rgba(255,255,255,.88); font-size:.8rem; line-height:1.6; }
+    .de-outcome { background:rgba(255,0,50,.1); border-color:rgba(255,0,50,.35); }
+    .de-outcome svg { stroke:#ff8fa3; }
+    .de-badge { font-size:.65rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; background:var(--red); color:var(--white); padding:3px 10px; border-radius:50px; display:inline-block; margin-bottom:12px; }
+    .de-badge-outcome { background:rgba(255,0,50,.3); }
+    .de-plus, .de-equals { font-size:1.8rem; font-weight:800; color:rgba(255,255,255,.3); text-align:center; align-self:center; }
+
+    /* Responsive M2 */
+    @media(max-width:1024px) {
+      .maturity-track { grid-template-columns:1fr; gap:0; }
+      .maturity-arrow { transform:rotate(90deg); margin:0 auto; }
+      .ms-connector { height:12px; }
+      .data-engine { grid-template-columns:1fr 1fr; gap:16px; }
+      .de-plus, .de-equals { display:none; }
+      .positioning-callout { grid-template-columns:1fr; }
+      .pc-visual { justify-content:center; flex-wrap:wrap; }
+    }
+    @media(max-width:640px) {
+      .data-engine { grid-template-columns:1fr; }
+    }
+
+    /* ── Module 2 Gatekeeper tab ──────────────────────────────────── */
+    .nav-tab.locked {
+      opacity: .45;
+      cursor: not-allowed;
+      position: relative;
+    }
+    .nav-tab.locked:hover {
+      background: transparent !important;
+      border-color: transparent !important;
+      color: rgba(255,255,255,.45) !important;
+    }
+    .nav-tab.unlocked {
+      animation: tab-unlock .4s ease;
+    }
+    @keyframes tab-unlock {
+      0%   { transform: scale(1); }
+      50%  { transform: scale(1.06); background: rgba(255,0,50,.25); }
+      100% { transform: scale(1); }
+    }
+
+    /* ── Toast notification ────────────────────────────────────────── */
+    .kio-toast {
+      position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(80px);
+      background: var(--purple); color: var(--white);
+      padding: 12px 24px; border-radius: 50px;
+      font-size: .88rem; font-weight: 600;
+      box-shadow: 0 8px 32px rgba(0,0,0,.35);
+      z-index: 9990; white-space: nowrap;
+      transition: transform .3s cubic-bezier(.175,.885,.32,1.275), opacity .3s;
+      opacity: 0; pointer-events: none;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .kio-toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+    .kio-toast svg { stroke: var(--red); flex-shrink: 0; }
+/* Before / After Grid */
+      .before-after-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+        margin-top: 8px;
+      }
+
+      .ba-panel {
+        border-radius: var(--radius-lg);
+        padding: 36px 32px;
+      }
+
+      .ba-before {
+        background: #fff5f5;
+        border: 2px solid #ffd0d0;
+      }
+
+      .ba-after {
+        background: #f0faf4;
+        border: 2px solid #b6e8c8;
+      }
+
+      .ba-label {
+        font-size: .75rem;
+        font-weight: 700;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+        margin-bottom: 24px;
+        padding: 6px 14px;
+        border-radius: 50px;
+        display: inline-block;
+      }
+
+      .ba-before .ba-label { background: #ffe0e0; color: #b00020; }
+      .ba-after  .ba-label { background: #c8f0d8; color: #1a7a40; }
+
+      .ba-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .ba-list li {
+        display: grid;
+        grid-template-columns: 90px 1fr;
+        align-items: start;
+        gap: 0 16px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid rgba(0,0,0,.07);
+      }
+
+      .ba-list li:last-child { border-bottom: none; padding-bottom: 0; }
+
+      .ba-stat {
+        font-size: 1.35rem;
+        font-weight: 800;
+        line-height: 1;
+        flex-shrink: 0;
+        min-width: 90px;
+        width: 90px;
+      }
+
+      .ba-before .ba-stat { color: var(--red); }
+      .ba-after  .ba-stat { color: #1a7a40; }
+
+      .ba-text {
+        font-size: .875rem;
+        color: #3d2646;
+        line-height: 1.5;
+        min-width: 0;
+      }
+
+      cite {
+        display: block;
+        font-style: italic;
+        font-size: .75rem;
+        color: #8b3a50;
+        margin-top: 4px;
+      }
+
+      /* Source note on cards */
+      .source-note {
+        font-size: .72rem;
+        font-style: italic;
+        color: #8b3a50;
+        margin-top: 12px;
+        border-top: 1px solid var(--gray-mid);
+        padding-top: 8px;
+      }
+
+      /* Featured Use Case */
+      .use-case-featured {
+        background: var(--cream);
+        border: 2px solid var(--pink);
+        border-radius: var(--radius-lg);
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+        box-shadow: var(--shadow);
+      }
+
+      .ucf-badge {
+        background: var(--red);
+        color: var(--white);
+        font-size: .72rem;
+        font-weight: 700;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+        padding: 6px 18px;
+        display: inline-block;
+        border-radius: 0 0 var(--radius-sm) 0;
+        position: absolute;
+        top: 0; left: 0;
+        z-index: 2;
+      }
+
+      .ucf-body {
+        display: grid;
+        grid-template-columns: 1fr 380px;
+        gap: 0;
+        align-items: center;
+      }
+
+      .ucf-text {
+        padding: 56px 40px 40px;
+      }
+
+      .ucf-text h2 { font-size: clamp(1.4rem, 2.5vw, 2rem); margin-bottom: 0; }
+
+      .ucf-stats {
+        display: flex;
+        gap: 32px;
+        flex-wrap: wrap;
+      }
+
+      .ucf-stat { display: flex; flex-direction: column; gap: 4px; }
+
+      .ucf-stat-num {
+        font-size: 2rem;
+        font-weight: 800;
+        color: var(--red);
+        line-height: 1;
+      }
+
+      .ucf-stat-label {
+        font-size: .75rem;
+        color: var(--gray-text);
+        line-height: 1.4;
+      }
+
+      .ucf-stat-label cite { color: var(--gray-mid); }
+
+      .ucf-visual {
+        background: var(--purple);
+        padding: 32px 28px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        min-height: 320px;
+        justify-content: center;
+        align-self: stretch;
+      }
+
+      .ucf-device-card {
+        background: rgba(255,255,255,.08);
+        border: 1px solid rgba(255,255,255,.12);
+        border-radius: var(--radius-sm);
+        padding: 14px 16px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        transition: background .2s;
+      }
+
+      .ucf-device-card.dim { opacity: .55; }
+
+      .ucf-device-icon {
+        font-size: 1.4rem;
+        flex-shrink: 0;
+        background: rgba(255,255,255,.06);
+        width: 42px; height: 42px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .ucf-device-info {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+
+      .ucf-device-info strong { color: var(--white); font-size: .85rem; }
+
+      .ucf-status { font-size: .75rem; font-weight: 600; }
+      .ucf-status.online  { color: #4cdf82; }
+      .ucf-status.warning { color: #ffb347; }
+
+      .ucf-location { font-size: .75rem; color: rgba(255,255,255,.5); }
+      .ucf-time     { font-size: .7rem;  color: rgba(255,255,255,.35); }
+
+      /* Persona Selector */
+      .persona-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+        margin-bottom: 32px;
+      }
+
+      .persona-chip {
+        padding: 10px 22px;
+        border-radius: 50px;
+        font-family: var(--font);
+        font-size: .85rem;
+        font-weight: 600;
+        color: rgba(255,255,255,.92);
+        background: rgba(255,255,255,.07);
+        border: 2px solid rgba(255,255,255,.15);
+        cursor: pointer;
+        transition: all .2s ease;
+      }
+
+      .persona-chip:hover {
+        color: var(--white);
+        background: rgba(255,255,255,.12);
+        border-color: rgba(255,255,255,.3);
+      }
+
+      .persona-chip.active {
+        background: var(--red);
+        border-color: var(--red);
+        color: var(--white);
+        box-shadow: 0 4px 16px rgba(255,0,50,.35);
+      }
+
+      .persona-panels { position: relative; }
+
+      .persona-panel { display: none; }
+      .persona-panel.active { display: block; }
+
+      .persona-panel-inner {
+        display: flex;
+        gap: 28px;
+        align-items: flex-start;
+        background: rgba(255,255,255,.06);
+        border: 1px solid rgba(255,255,255,.12);
+        border-radius: var(--radius-lg);
+        padding: 36px;
+      }
+
+      .persona-icon {
+        font-size: 2.5rem;
+        background: rgba(255,255,255,.08);
+        width: 72px; height: 72px;
+        border-radius: var(--radius-md);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      .persona-content { flex: 1; }
+
+      .persona-role {
+        font-size: .75rem;
+        font-weight: 700;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+        color: var(--red);
+        margin-bottom: 8px;
+      }
+
+      .persona-content h3 {
+        color: var(--white);
+        font-size: 1.3rem;
+        margin-bottom: 14px;
+      }
+
+      .persona-content p {
+        color: rgba(255,255,255,.92);
+        margin-bottom: 16px;
+        font-size: .95rem;
+        line-height: 1.75;
+      }
+
+      .persona-keymsg {
+        background: rgba(255,0,50,.12);
+        border: 1px solid rgba(255,0,50,.3);
+        border-radius: var(--radius-sm);
+        padding: 16px 20px;
+        font-size: .9rem;
+        color: rgba(255,255,255,.8);
+        margin-bottom: 16px;
+        line-height: 1.7;
+      }
+
+      .persona-keymsg strong { color: var(--red); }
+
+      .persona-proof {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .persona-proof span {
+        font-size: .8rem;
+        font-weight: 600;
+        color: rgba(255,255,255,.5);
+      }
+
+      .persona-proof cite {
+        font-size: .72rem;
+        color: rgba(255,255,255,.3);
+        font-style: italic;
+        display: block;
+        margin-top: 0;
+      }
+
+      /* ── Heroicon sizing inside card-icon ──────────────────────── */
+      .card-icon svg { width: 26px; height: 26px; stroke: currentColor; }
+      .card.dark .card-icon svg { stroke: var(--red); }
+      .card.accent .card-icon { background: rgba(255,0,50,.1); }
+      .card.accent .card-icon svg { stroke: var(--red); }
+
+      /* ── Flip Cards ─────────────────────────────────────────────── */
+      .capabilities-grid { align-items: stretch; }
+
+      .flip-card {
+        perspective: 1200px;
+        cursor: pointer;
+        height: 100%;
+        min-height: 420px;
+      }
+
+      .flip-card-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        min-height: 440px;
+        transition: transform .65s cubic-bezier(.4,0,.2,1);
+        transform-style: preserve-3d;
+      }
+
+      .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
+
+      .flip-card-front,
+      .flip-card-back {
+        position: absolute;
+        inset: 0;
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+      }
+
+      .flip-card-front { z-index: 2; }
+
+      .flip-card-back {
+        transform: rotateY(180deg);
+        background: var(--purple);
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        overflow: hidden;
+      }
+
+      .flip-card-front .card {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        transition: none;
+        transform: none;
+        padding: 24px;
+      }
+
+      .flip-card-front .card:hover {
+        transform: none;
+        box-shadow: var(--shadow);
+      }
+
+      .flip-card-front .card p:not(.source-note) { flex: 1; }
+
+      /* Flip hint strip */
+      .flip-hint {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: .72rem;
+        font-weight: 600;
+        color: var(--red);
+        text-transform: uppercase;
+        letter-spacing: .06em;
+        margin-top: 12px;
+        padding-top: 10px;
+        border-top: 1px solid var(--pink);
+      }
+
+      .flip-hint svg { flex-shrink: 0; }
+
+      .flip-back-label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: .68rem;
+        font-weight: 700;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+        color: var(--red);
+        padding-bottom: 8px;
+        border-bottom: 1px solid rgba(255,0,50,.25);
+        flex-shrink: 0;
+      }
+
+      .flip-talk {
+        font-size: .82rem;
+        color: rgba(255,255,255,.8) !important;
+        line-height: 1.65;
+        flex: 1;
+        font-style: italic;
+        overflow: hidden;
+      }
+
+      .flip-back-hint {
+        color: rgba(255,255,255,.35) !important;
+        border-top: 1px solid rgba(255,255,255,.1) !important;
+        margin-top: 0;
+      }
+
+      .flip-card-back .source-note {
+        color: rgba(255,255,255,.3);
+        border-top: 1px solid rgba(255,255,255,.1);
+      }
+
+      /* Persona heroicon sizing */
+      .persona-icon svg { width: 36px; height: 36px; stroke: var(--red); }
+
+      /* UCF device icon heroicon sizing */
+      .ucf-device-icon svg { width: 22px; height: 22px; stroke: rgba(255,255,255,.7); }
+
+      /* Use-case card heroicons */
+      .use-case-cards .card-icon svg { stroke: var(--red); }
+      .use-case-cards .card-icon { background: var(--pink); }
+
+      /* UCF headline tightening */
+      .ucf-text h2 {
+        font-size: clamp(1.25rem, 2vw, 1.75rem);
+        white-space: normal;
+      }
+
+      /* Responsive — Part 2 */
+      @media (max-width: 900px) {
+        .before-after-grid { grid-template-columns: 1fr; }
+        .ucf-body { grid-template-columns: 1fr; }
+        .ucf-visual { min-height: auto; padding: 24px; }
+      }
+
+      @media (max-width: 640px) {
+        .persona-panel-inner { flex-direction: column; }
+        .ucf-stats { gap: 16px; }
+        .ba-stat { font-size: 1.3rem; min-width: 56px; }
+        .flip-card { min-height: 420px; }
+        .flip-card-inner { min-height: 420px; }
+
+/* ── Module 3 role bar ──────────────────────────────────────────── */
+      .m3-role-bar {
+        position: sticky;
+        top: var(--nav-height);
+        z-index: 100;
+        background: var(--purple);
+        padding: 14px 0;
+        box-shadow: 0 2px 16px rgba(0,0,0,.28);
+        border-bottom: 1px solid rgba(255,255,255,.08);
+      }
+      .m3-role-bar-inner {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .m3-role-label {
+        color: rgba(255,255,255,.5);
+        font-size: .78rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .07em;
+        margin-right: 6px;
+        flex-shrink: 0;
+      }
+      .m3-role-btn {
+        padding: 8px 22px;
+        border-radius: 50px;
+        font-family: var(--font);
+        font-size: .875rem;
+        font-weight: 600;
+        cursor: pointer;
+        border: 2px solid rgba(255,255,255,.22);
+        background: transparent;
+        color: rgba(255,255,255,.75);
+        transition: all .2s ease;
+      }
+      .m3-role-btn:hover {
+        border-color: rgba(255,255,255,.55);
+        color: var(--white);
+      }
+      .m3-role-btn.active {
+        border-color: var(--red);
+        background: rgba(255,0,50,.2);
+        color: var(--white);
+      }
+      /* ── M3 panel display ───────────────────────────────────────────── */
+      .m3-panel { display: none; }
+      .m3-panel.active { display: block; }
+      /* ── Discovery question list ────────────────────────────────────── */
+      .disc-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 14px; }
+      .disc-list li { display: flex; gap: 14px; align-items: flex-start; font-size: .93rem; color: var(--purple); line-height: 1.6; }
+      .disc-q-num { flex-shrink: 0; background: var(--red); color: var(--white); font-size: .72rem; font-weight: 800; border-radius: 50%; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; margin-top: 1px; }
+      /* ── COI stat cards on purple bg ────────────────────────────────── */
+      .coi-stat { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.14); border-radius: var(--radius-lg); padding: 32px 24px; text-align: center; }
+      .coi-stat .stat-num { font-size: clamp(1.8rem,3.5vw,2.8rem); font-weight: 800; color: var(--red); line-height: 1; margin-bottom: 10px; }
+      .coi-stat p { font-size: .85rem; color: rgba(255,255,255,.82); }
+      /* ── Dark card on purple bg ─────────────────────────────────────── */
+      .m3-dark-card { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); border-radius: var(--radius-lg); padding: 28px 30px; }
+      .m3-dark-card h3 { color: var(--white); margin-bottom: 10px; }
+      .m3-dark-card p { color: rgba(255,255,255,.85); font-size: .93rem; line-height: 1.7; }
+      .m3-dark-card p + p { margin-top: 8px; }
+      .m3-dark-card strong { color: var(--white); }
+      .m3-dark-card.flip-card { padding: 0; background: transparent; border: none; min-height: 220px; cursor: pointer; }
+      .m3-dark-card.flip-card .flip-card-inner { min-height: 220px; }
+      .m3-dark-card.flip-card .flip-card-front > div { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); border-radius: var(--radius-lg); padding: 28px 30px; height: 100%; display: flex; flex-direction: column; }
+      .m3-dark-card.flip-card .flip-card-front > div h3 { color: var(--white); margin-bottom: 10px; }
+      .m3-dark-card.flip-card .flip-card-front > div p { color: rgba(255,255,255,.85); font-size: .93rem; line-height: 1.7; flex: 1; }
+      .m3-dark-card.flip-card .coi-flip-hint { display:flex; align-items:center; gap:6px; font-size:.68rem; font-weight:600; color:rgba(255,100,100,.8); text-transform:uppercase; letter-spacing:.06em; margin-top:12px; padding-top:8px; border-top:1px solid rgba(255,255,255,.12); flex-shrink:0; }
+      /* ── Callout quote ──────────────────────────────────────────────── */
+      .m3-quote { border-left: 4px solid var(--red); padding: 20px 24px; background: var(--pink); border-radius: 0 var(--radius-md) var(--radius-md) 0; margin-bottom: 32px; }
+      .m3-quote p { font-size: 1rem; font-style: italic; color: var(--purple); font-weight: 500; line-height: 1.7; }
+      /* ── Why-now icon cards ─────────────────────────────────────────── */
+      .m3-icon-card .card-icon { background: var(--pink); }
+      /* ── Quick stat strips ──────────────────────────────────────────── */
+      .m3-stats-strip {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 32px;
+      }
+      .m3-stat-chip {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        background: var(--pink);
+        border: 1px solid rgba(255,0,50,.18);
+        border-radius: var(--radius-md);
+        padding: 10px 18px;
+        min-width: 90px;
+        flex: 1;
+      }
+      .m3-stat-chip .m3-sc-val {
+        font-size: 1.25rem;
+        font-weight: 800;
+        color: var(--red);
+        line-height: 1.1;
+        white-space: nowrap;
+      }
+      .m3-stat-chip .m3-sc-label {
+        font-size: .7rem;
+        font-weight: 600;
+        color: var(--purple);
+        text-align: center;
+        margin-top: 3px;
+        line-height: 1.3;
+        text-transform: uppercase;
+        letter-spacing: .04em;
+      }
+      /* dark bg variant (COI section is purple) */
+      .m3-stats-strip.dark .m3-stat-chip {
+        background: rgba(255,255,255,.07);
+        border-color: rgba(255,255,255,.14);
+      }
+      .m3-stats-strip.dark .m3-sc-val { color: var(--red); }
+      .m3-stats-strip.dark .m3-sc-label { color: rgba(255,255,255,.75); }
+      /* ── Responsive ─────────────────────────────────────────────────── */
+      @media(max-width:640px) {
+        .m3-role-bar-inner { gap: 8px; }
+        .m3-role-btn { padding: 7px 14px; font-size: .8rem; }
+        .m3-stat-chip { min-width: 70px; padding: 8px 10px; }
+        .m3-sc-val { font-size: 1.1rem; }
+      }
+
+    /* ── Standalone overrides ── */
+    body { padding-top: 0; }
+    .m3-role-bar { top: 0; }
+    #progress-bar-wrap { display: none; }
+
+  </style>
+</head>
+<body>
+  <header style="background: linear-gradient(135deg, #1a0a2e 0%, #2d1b4e 100%); padding: 48px 40px; margin-bottom: 0;">
+    <div style="max-width: 1120px; margin: 0 auto;">
+      <div style="font-size:.75rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:12px;">Revenue Enablement</div>
+      <h1 style="font-size:2.4rem;font-weight:800;color:#fff;margin:0 0 12px;">Asset Tracker &amp; Supply Chain Agent</h1>
+      <p style="font-size:1.2rem;font-weight:600;color:#e63946;margin:0;">Revenue Playbook</p>
+    </div>
+  </header>
+    <!-- ── Hero ──────────────────────────────────────────────────────── -->
+    <section class="module-hero">
+      <div class="container">
+        <div class="hero-content">
+          <div class="hero-badge"><span class="hero-badge-dot"></span>Module 3 — Revenue Playbook</div>
+          <h1 id="m3-hero-heading">The Complete <span class="highlight">Kontakt.io</span> Platform Story</h1>
+          <p class="hero-sub">Asset Tracking · Supply Chain Agent</p>
+          <p class="hero-intro">Your one-stop reference for every sales conversation — from first cold call to expansion renewal. Select your role to filter every section to what matters most for your work.</p>
+          <div class="hero-stats" aria-label="Platform impact statistics">
+            <div class="hero-stat"><span class="hero-stat-value">800+</span><span class="hero-stat-label">Hospital Deployments</span></div>
+            <div class="hero-stat"><span class="hero-stat-value">8x</span><span class="hero-stat-label">Combined ROI (AT + SCA)</span></div>
+            <div class="hero-stat"><span class="hero-stat-value">2 hrs</span><span class="hero-stat-label">Saved / Nurse / Day</span></div>
+            <div class="hero-stat"><span class="hero-stat-value">30%</span><span class="hero-stat-label">Supply Cost Reduction</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Platform Impact Overview ──────────────────────────────────── -->
+    <section class="content-section bg-white">
+      <div class="container">
+        <div class="section-header fade-in">
+          <span class="section-label">Platform Overview</span>
+          <h2 id="m3-overview-heading">What Kontakt.io <span class="highlight">actually solves</span></h2>
+          <div class="divider"></div>
+          <p style="margin-top:16px;">Two complementary products. One infrastructure. Transformational impact across the entire hospital ecosystem.</p>
+        </div>
+        <div class="card-grid card-grid-2 fade-in">
+          <div class="card">
+            <div class="card-icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21"/></svg>
+            </div>
+            <h3>For the Hospital System</h3>
+            <p>6x ROI on Asset Tracker alone — 8x when combined with Supply Chain Agent. One platform replaces point solutions for staff safety, asset tracking, patient flow, and supply chain. No vendor sprawl. No redundant IT maintenance. One contract, multiple ROI centers.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 1 0 7.5 7.5h-7.5V6Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0 0 13.5 3v7.5Z"/></svg>
+            </div>
+            <h3>For Operations &amp; Administration</h3>
+            <p>Real-time visibility into every device, every supply, every workflow. Automated PM scheduling, rental optimization, and supply routing replace manual spreadsheets and reactive firefighting. Compliance tracking becomes continuous rather than point-in-time.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z"/></svg>
+            </div>
+            <h3>For Clinical &amp; Supply Teams</h3>
+            <p>Nurses find equipment in under 60 seconds — reclaiming 2+ hours per shift. Supply techs receive SMS task assignments with no app to install and no training required. BioMed gets real-time PM dashboards. OR coordinators see live inventory before first case of the day.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"/></svg>
+            </div>
+            <h3>For Patients</h3>
+            <p>Equipment is where it needs to be when care is needed. Fewer delays mean faster treatment and better outcomes. Expired or recalled supplies are flagged and removed automatically. Nurses freed from equipment searches spend more time at the bedside. A more efficient hospital is a measurably safer one.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Role Selector Bar (sticky) ────────────────────────────────── -->
+    <div class="m3-role-bar">
+      <div class="container">
+        <div class="m3-role-bar-inner">
+          <span class="m3-role-label">View as:</span>
+          <button class="m3-role-btn active" data-role="ae" onclick="selectM3Role('ae')">Account Executive</button>
+          <button class="m3-role-btn" data-role="cs" onclick="selectM3Role('cs')">Customer Success</button>
+          <button class="m3-role-btn" data-role="sdr" onclick="selectM3Role('sdr')">SDR</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ SECTION: POSITIONING ══════════════════════════════════════════ -->
+    <section class="content-section bg-cream">
+      <div class="container">
+        <div class="section-header fade-in">
+          <span class="section-label">Positioning</span>
+          <h2 id="m3-position-heading">How to <span class="highlight">frame the platform</span></h2>
+          <div class="divider"></div>
+          <p style="margin-top:16px;">The right framing for your role, your audience, and your moment in the conversation.</p>
+        </div>
+
+        <div class="m3-stats-strip fade-in">
+          <div class="m3-stat-chip"><span class="m3-sc-val">800+</span><span class="m3-sc-label">Hospital Deployments</span></div>
+          <div class="m3-stat-chip"><span class="m3-sc-val">6x</span><span class="m3-sc-label">ROI — Asset Tracker</span></div>
+          <div class="m3-stat-chip"><span class="m3-sc-val">8x</span><span class="m3-sc-label">ROI — AT + SCA</span></div>
+          <div class="m3-stat-chip"><span class="m3-sc-val">&lt;6 mo.</span><span class="m3-sc-label">Typical Payback</span></div>
+          <div class="m3-stat-chip"><span class="m3-sc-val">4 yr</span><span class="m3-sc-label">Managed BLE Lifecycle</span></div>
+        </div>
+
+        <!-- AE Positioning -->
+        <div class="m3-panel active fade-in" data-role="ae">
+          <div class="m3-quote"><p>"Kontakt.io is the only AI-powered RTLS platform that unifies asset tracking AND supply chain management on a single BLE infrastructure. We are not selling point solutions — we are selling operational transformation."</p></div>
+          <div class="card-grid card-grid-3">
+            <div class="card">
+              <div class="card-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 16.875h3.375m0 0h3.375m-3.375 0V13.5m0 3.375v3.375M6 10.5h2.25a2.25 2.25 0 0 0 2.25-2.25V6a2.25 2.25 0 0 0-2.25-2.25H6A2.25 2.25 0 0 0 3.75 6v2.25A2.25 2.25 0 0 0 6 10.5Zm0 9.75h2.25A2.25 2.25 0 0 0 10.5 18v-2.25a2.25 2.25 0 0 0-2.25-2.25H6a2.25 2.25 0 0 0-2.25 2.25V18A2.25 2.25 0 0 0 6 20.25Zm9.75-9.75H18a2.25 2.25 0 0 0 2.25-2.25V6A2.25 2.25 0 0 0 18 3.75h-2.25A2.25 2.25 0 0 0 13.5 6v2.25a2.25 2.25 0 0 0 2.25 2.25Z"/></svg></div>
+              <h3>Single Platform</h3>
+              <p>One vendor, one contract, one infrastructure. Kontakt.io replaces 3–5 point solutions hospitals currently hold together with manual processes. The consolidation story resonates with CFOs and CIOs immediately.</p>
+            </div>
+            <div class="card">
+              <div class="card-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg></div>
+              <h3>Proven ROI</h3>
+              <p>6x ROI on Asset Tracker alone. Combined with SCA it becomes 8x. These are actuals from 800+ health system deployments — not projected returns. Payback typically within 6 months of go-live.</p>
+            </div>
+            <div class="card">
+              <div class="card-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.288 15.038a5.25 5.25 0 0 1 7.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12.53 18.22l-.53.53-.53-.53a.75.75 0 0 1 1.06 0Z"/></svg></div>
+              <h3>Infrastructure Leverage</h3>
+              <p>Hospitals already have BLE + WiFi deployed. Kontakt.io rides that existing infrastructure — no new cabling, no major capital project. This cuts deployment time significantly and removes the biggest objection IT teams raise.</p>
+            </div>
+            <div class="card">
+              <div class="card-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 0 0 6 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0 1 18 16.5h-2.25m-7.5 0h7.5m-7.5 0-1 3m8.5-3 1 3m0 0 .5 1.5m-.5-1.5h-9.5m0 0-.5 1.5M9 11.25v1.5M12 9v3.75m3-6v6"/></svg></div>
+              <h3>Multi-Department Value</h3>
+              <p>Nursing, BioMed, Supply Chain, OR, EVS — all benefit from the same platform. Position this as a C-suite investment: one decision delivers ROI across every operational department simultaneously.</p>
+            </div>
+            <div class="card">
+              <div class="card-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09Z"/></svg></div>
+              <h3>AI-Powered Differentiation</h3>
+              <p>SCA uses AI to predict demand, auto-route tasks, and prevent stockouts. This is not passive tracking — it is an intelligent operational co-pilot. Lead with this when speaking to COOs and CFOs who need an AI ROI story for their boards.</p>
+            </div>
+            <div class="card">
+              <div class="card-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 0 1 3 3h-15a3 3 0 0 1 3-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 0 1-.982-3.172M9.497 14.25a7.454 7.454 0 0 0 .981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 0 0 7.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M7.73 9.728a6.726 6.726 0 0 0 2.748 1.35m8.272-6.842V4.5c0 2.108-.966 3.99-2.48 5.228m2.48-5.492a46.32 46.32 0 0 1 2.916.52 6.003 6.003 0 0 1-5.395 4.972m0 0a6.726 6.726 0 0 1-2.749 1.35m0 0a6.772 6.772 0 0 1-3.044 0"/></svg></div>
+              <h3>Competitive Moat</h3>
+              <p>Legacy RTLS (Stanley, Zebra, Midmark) requires expensive new hardware and long deployments. Epic is a supply chain silo. Only Kontakt.io bridges asset tracking AND supply chain on one existing BLE infrastructure — that is a defensible, hard-to-replicate position.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- CS Positioning -->
+        <div class="m3-panel fade-in" data-role="cs">
+          <div class="m3-quote"><p>"Kontakt.io helps your customers see faster time-to-value than any competing platform. The managed BLE lifecycle means less IT burden, and SMS-based SCA requires zero staff training — both of which are key renewal and expansion stories."</p></div>
+          <div class="card-grid card-grid-3">
+            <div class="card"><div class="card-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"/></svg></div><h3>Adoption Advantage</h3><p>SCA routes tasks via SMS — no app, no training, no behavior change required. Adoption rate is your most powerful renewal metric. Customers with active SCA usage simply do not churn.</p></div>
+            <div class="card"><div class="card-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 0 0 6 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0 1 18 16.5h-2.25m-7.5 0h7.5m-7.5 0-1 3m8.5-3 1 3m0 0 .5 1.5m-.5-1.5h-9.5m0 0-.5 1.5"/></svg></div><h3>Land and Expand</h3><p>Asset Tracker is the land. SCA is the expand. AT success is proof that the platform works — use it as the evidence base to open the SCA conversation. "You have seen X value. Here is what 2x looks like."</p></div>
+            <div class="card"><div class="card-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z"/></svg></div><h3>Managed Lifecycle</h3><p>4-year BLE tag lifecycle managed by Kontakt.io — not the hospital IT team. This is a meaningful differentiator with CIOs at renewal. The alternative is buying, maintaining, and replacing hardware themselves.</p></div>
+            <div class="card"><div class="card-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0 0 20.25 18V6A2.25 2.25 0 0 0 18 3.75H6A2.25 2.25 0 0 0 3.75 6v12A2.25 2.25 0 0 0 6 20.25Z"/></svg></div><h3>Health Metrics That Tell the Story</h3><p>Track tag activation rate, daily active users, task completion %, supply waste reduction, and nurse search time. Build these into your QBR before the customer asks — arriving with data is always better than arriving with questions.</p></div>
+            <div class="card"><div class="card-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 14.25l6-6m4.5-3.493V21.75l-4.125-1.875-4.125 1.875-4.125-1.875L3 21.75V4.757c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0c1.1.128 1.907 1.077 1.907 2.185Z"/></svg></div><h3>Competitive Defense</h3><p>If a competitor knocks, anchor to sunk infrastructure cost and realized ROI: "You would be starting over — and leaving $X per year in value behind." Always use their actual numbers from platform data, not estimates.</p></div>
+            <div class="card"><div class="card-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Z"/></svg></div><h3>Executive Alignment</h3><p>CNO cares about nurse satisfaction and Magnet status. CFO cares about supply cost and labor savings. CIO cares about IT lift and infrastructure management. Your QBR should hit all three — the platform delivers a story for every exec.</p></div>
+          </div>
+        </div>
+
+        <!-- SDR Positioning -->
+        <div class="m3-panel fade-in" data-role="sdr">
+          <div class="m3-quote"><p>"I'm reaching out because hospitals like yours are losing $500K–$1M per year in supply waste and nurse productivity — and Kontakt.io solves both problems in 90 days on your existing infrastructure."</p></div>
+          <div class="card-grid card-grid-3">
+            <div class="card"><h3>ICP Profile</h3><p>200+ bed hospitals. WiFi/BLE infrastructure already deployed. Pain around nurse satisfaction scores, biomed PM backlogs, or supply chain cost. Best entry titles: CNO, VP Supply Chain, CFO, CIO — avoid starting with IT Directors (they evaluate, they don't sponsor).</p></div>
+            <div class="card"><h3>One-Liner Value Props</h3><p><strong style="display:block;margin-bottom:6px;">Asset Tracking:</strong>"We help nurses find any piece of equipment in under 60 seconds — instead of the 45-minute search that's becoming their full-time job."<br><br><strong style="display:block;margin-bottom:6px;">Supply Chain Agent:</strong>"We cut hospital supply waste by 30% with no new hardware and no staff training required."</p></div>
+            <div class="card"><h3>Cold Outreach Angle</h3><p>Lead with the operational pain specific to their role. Reference a peer health system result with a real dollar amount. Tie to a trigger event if you have one (new construction, JC audit, M&amp;A, leadership change). Keep it to 3 sentences maximum.</p></div>
+            <div class="card"><h3>Qualifying Signal</h3><p>Look for: Magnet hospital status (nurse satisfaction is a KPI), recent Joint Commission audit news, new facility construction, M&amp;A activity, or public press about supply chain challenges. ZoomInfo and Owler trigger alerts are your prospecting engine.</p></div>
+            <div class="card"><h3>Email/LinkedIn Hook</h3><p>"[Hospital] has [X] beds — that is potentially $[X]M in annual supply waste based on our data from peer systems. Can I share how [similar hospital] cut that by 30% last year? Takes 15 minutes." Personalize the dollar figure with their bed count × industry benchmark.</p></div>
+            <div class="card"><h3>Multi-Thread Targets</h3><p>Start with the economic buyer (CFO/COO) OR operational champion (CNO/VP Supply Chain). Run both tracks simultaneously. Get IT involved only after the business case is established — IT evaluates, they rarely sponsor the budget.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ SECTION: PITCHING ══════════════════════════════════════════════ -->
+    <section class="content-section bg-white">
+      <div class="container">
+        <div class="section-header fade-in">
+          <span class="section-label">Pitching</span>
+          <h2 id="m3-pitch-heading">How to <span class="highlight">run the conversation</span></h2>
+          <div class="divider"></div>
+          <p style="margin-top:16px;">Frameworks, sequences, and objection handlers — built for your role and your motion.</p>
+        </div>
+
+        <div class="m3-stats-strip fade-in">
+          <div class="m3-stat-chip"><span class="m3-sc-val">&lt;60 sec</span><span class="m3-sc-label">To Find Any Asset</span></div>
+          <div class="m3-stat-chip"><span class="m3-sc-val">2+ hrs</span><span class="m3-sc-label">Saved/Nurse/Day</span></div>
+          <div class="m3-stat-chip"><span class="m3-sc-val">$3M/yr</span><span class="m3-sc-label">Savings (300-bed)</span></div>
+          <div class="m3-stat-chip"><span class="m3-sc-val">30%</span><span class="m3-sc-label">Supply Cost Reduction</span></div>
+          <div class="m3-stat-chip"><span class="m3-sc-val">0</span><span class="m3-sc-label">Apps / Training for SCA</span></div>
+        </div>
+
+        <!-- AE Pitching -->
+        <div class="m3-panel active fade-in" data-role="ae">
+          <div class="card-grid card-grid-2">
+            <div class="card"><div class="card-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z"/></svg></div><h3>Demo Sequence (4 Acts)</h3><p style="margin-bottom:10px;"><strong>Act 1 — The Search Problem:</strong> Show a nurse finding a pump on the live map in &lt;60 seconds. Let them feel the contrast to their current reality.</p><p style="margin-bottom:10px;"><strong>Act 2 — BioMed Control:</strong> Show the PM dashboard. "Your team has this for every device, all the time — not a quarterly audit."</p><p style="margin-bottom:10px;"><strong>Act 3 — SCA in Action:</strong> Show a supply task auto-routing to the nearest tech via SMS. "No app. No training. Just a text."</p><p><strong>Act 4 — The ROI Moment:</strong> Open the ROI calculator with their actual bed count. Let them input the numbers. Silence is your friend here.</p></div>
+            <div class="card"><div class="card-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z"/></svg></div><h3>Multi-Threading Map</h3><p style="margin-bottom:10px;"><strong>CNO / Nursing Leadership:</strong> Equipment availability, nurse satisfaction, HCAHPS scores, Magnet renewal, bedside time recovered.</p><p style="margin-bottom:10px;"><strong>BioMed / Clinical Engineering:</strong> PM compliance automation, rental cost reduction, device utilization dashboard.</p><p style="margin-bottom:10px;"><strong>VP Supply Chain / OR Director:</strong> Waste reduction, stockout prevention, SCA routing efficiency, case cart accuracy.</p><p><strong>CFO / COO / CIO:</strong> 8x combined ROI, labor savings, single platform vs. vendor sprawl, IT-light deployment.</p></div>
+            <div class="card"><div class="card-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/></svg></div><h3>Objection: "We already have Epic"</h3><p>"Epic manages billing and records beautifully. It does not tell your nurses where the IV pump is right now — or automatically route your supply tech to restock it. Kontakt.io works alongside Epic; many of our customers have integrated the two to create a complete operational picture. They are complementary, not competing."</p></div>
+            <div class="card"><div class="card-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"/></svg></div><h3>Objection: "We tried RTLS before and it failed"</h3><p>"Most RTLS failures come from hardware complexity and zero staff adoption — people having to open apps they never trained on. Our BLE tags require no charging, no behavior change from nurses. SCA routes via SMS, not an app no one opens. And we manage the hardware lifecycle so your IT team never touches it. The failure mode you experienced is exactly what we were built to solve."</p></div>
+            <div class="card"><div class="card-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg></div><h3>Objection: "Too expensive"</h3><p>"Let's put your numbers in right now. A 300-bed hospital with 500 nurses saves roughly $3M per year in productivity alone — before supply chain. Full payback typically happens in under 6 months. So the question is: what does Kontakt.io need to cost before the ROI math stops working? I want to find that number with you."</p></div>
+            <div class="card"><div class="card-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 0 0 6 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0 1 18 16.5h-2.25m-7.5 0h7.5m-7.5 0-1 3m8.5-3 1 3m0 0 .5 1.5m-.5-1.5h-9.5m0 0-.5 1.5M9 11.25v1.5M12 9v3.75m3-6v6"/></svg></div><h3>C-Suite Narrative</h3><p>"You are running a billion-dollar operation with smartphone-level visibility into where your assets and supplies are. Kontakt.io gives your executives real-time operational intelligence — the kind that turns a reactive hospital into a proactive one. This is how the best-performing health systems in the country are pulling ahead."</p></div>
+          </div>
+        </div>
+
+        <!-- CS Pitching -->
+        <div class="m3-panel fade-in" data-role="cs">
+          <div class="card-grid card-grid-2">
+            <div class="card"><div class="card-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 0 0 6 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0 1 18 16.5h-2.25m-7.5 0h7.5m-7.5 0-1 3m8.5-3 1 3m0 0 .5 1.5m-.5-1.5h-9.5m0 0-.5 1.5M9 11.25v1.5M12 9v3.75m3-6v6"/></svg></div><h3>QBR Structure (4 Moves)</h3><p style="margin-bottom:10px;"><strong>Move 1 — Open with value delivered:</strong> Tags activated, tasks completed, hours saved, supply waste reduced. Lead with their numbers, not yours.</p><p style="margin-bottom:10px;"><strong>Move 2 — Show the ROI calculation:</strong> Use actual platform data, not estimates. Make it a line item they can take to their CFO.</p><p style="margin-bottom:10px;"><strong>Move 3 — Surface a remaining gap:</strong> What pain still exists? Position SCA (or deeper AT adoption) as the solve.</p><p><strong>Move 4 — Set a concrete next milestone:</strong> A specific outcome they want in 90 days, with Kontakt.io accountable to it.</p></div>
+            <div class="card"><div class="card-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941"/></svg></div><h3>Expansion Pitch: AT → SCA</h3><p style="margin-bottom:10px;">"You have proven that real-time visibility works for your teams. Supply Chain Agent takes that same infrastructure you already have and applies it to the $500K–$1M you are losing in supply waste every year."</p><p>"The incremental investment is small. The incremental ROI is another 2x on top of what you are already getting. The hospitals that expand to SCA in Year 2 see a combined 8x return. This is the natural next chapter of the platform's value."</p></div>
+            <div class="card"><div class="card-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"/></svg></div><h3>At-Risk Customer Playbook</h3><p style="margin-bottom:10px;"><strong>Warning signs:</strong> Low tag activation rate, no SCA expansion conversations, champion has left their role, IT friction unresolved, declining login activity.</p><p style="margin-bottom:10px;"><strong>Response:</strong> Executive re-engagement via CNO or CFO bridge call. Bring in the AE for a joint "value recalibration" session.</p><p><strong>Anchor:</strong> "Here is what you have built over [X months]. Here is what you would be giving up — and the cost of rebuilding this with a new vendor from scratch."</p></div>
+            <div class="card"><div class="card-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"/></svg></div><h3>Renewal Narrative</h3><p style="margin-bottom:10px;">"In the last 12 months, you have achieved [specific outcomes]. That is [$ value] in measurable operational return."</p><p>"With SCA on the roadmap, Year 2 is where the platform compounds. The customers who expand in Year 2 consistently see their total ROI reach 8x. Year 1 was proving it works. Year 2 is making it multiply."</p></div>
+          </div>
+        </div>
+
+        <!-- SDR Pitching -->
+        <div class="m3-panel fade-in" data-role="sdr">
+          <div class="card-grid card-grid-2">
+            <div class="card"><div class="card-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z"/></svg></div><h3>Cold Call Framework (PACT)</h3><p style="margin-bottom:10px;"><strong>P — Pattern interrupt:</strong> "I know I'm reaching out cold — I'll keep it under 30 seconds."</p><p style="margin-bottom:10px;"><strong>A — Anchor to their pain:</strong> "We help hospitals like [Hospital] eliminate the equipment search nurses deal with every shift — or cut supply waste by 30% on existing infrastructure."</p><p style="margin-bottom:10px;"><strong>C — Credibility drop:</strong> "We work with 800+ health systems. A peer of yours just recovered $900K in lost rentals in their first 90 days."</p><p><strong>T — Time ask:</strong> "Would 20 minutes make sense this week to see if the math works for you?"</p></div>
+            <div class="card"><div class="card-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/></svg></div><h3>30-Second Value Props</h3><p style="margin-bottom:10px;"><strong>For nursing-focused buyers (CNO, VPs of Patient Care):</strong><br>"We help hospitals cut the time nurses spend searching for equipment from 45 minutes per shift to under 60 seconds — using your existing WiFi. No new hardware. No training. Nurses just find things."</p><p><strong>For supply chain buyers (VP Supply Chain, CFO, COO):</strong><br>"We reduce hospital supply costs by 30% by automating replenishment, routing tasks to the nearest available tech via SMS, and eliminating manual counts entirely."</p></div>
+            <div class="card"><div class="card-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"/></svg></div><h3>3-Touch Email Sequence</h3><p style="margin-bottom:10px;"><strong>Email 1 — The hook:</strong> Personalized ROI reference with a peer result. "{{Hospital}} has [X] beds — here is what a comparable system achieved." One specific number. One ask.</p><p style="margin-bottom:10px;"><strong>Email 2 — The proof:</strong> A case study stat or brief outcome. Short. No fluff. Link to a resource if you have one.</p><p><strong>Email 3 — The direct ask:</strong> Calendar link only. "Worth 15 minutes?" Nothing else. Brevity signals confidence.</p></div>
+            <div class="card"><div class="card-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244"/></svg></div><h3>LinkedIn Outreach Protocol</h3><p style="margin-bottom:10px;"><strong>Step 1:</strong> Comment meaningfully on their content before sending a connection request. No pitch in the connection note.</p><p style="margin-bottom:10px;"><strong>Step 2:</strong> Follow-up message after connecting: "I work with hospitals solving [specific pain related to their content or hospital's known situation]. Happy to share what's working — no pitch, just data if it's useful."</p><p><strong>Step 3:</strong> If no response in 7 days, one final follow-up with a specific stat tied to their institution's profile.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ SECTION: DISCOVERY QUESTIONS ══════════════════════════════════ -->
+    <section class="content-section bg-cream">
+      <div class="container">
+        <div class="section-header fade-in">
+          <span class="section-label">Discovery</span>
+          <h2 id="m3-disc-heading">Questions that <span class="highlight">unlock the deal</span></h2>
+          <div class="divider"></div>
+          <p style="margin-top:16px;">The right questions surface the pain, the urgency, the stakeholders, and the budget — faster than any pitch.</p>
+        </div>
+
+        <div class="m3-stats-strip fade-in">
+          <div class="m3-stat-chip"><span class="m3-sc-val">45 min</span><span class="m3-sc-label">Avg Equipment Search/Shift</span></div>
+          <div class="m3-stat-chip"><span class="m3-sc-val">15–20%</span><span class="m3-sc-label">Supply Waste Rate</span></div>
+          <div class="m3-stat-chip"><span class="m3-sc-val">18%</span><span class="m3-sc-label">Annual Nurse Turnover</span></div>
+          <div class="m3-stat-chip"><span class="m3-sc-val">#1</span><span class="m3-sc-label">Burnout Driver: Equip. Hunting</span></div>
+        </div>
+
+        <!-- AE Discovery -->
+        <div class="m3-panel active fade-in" data-role="ae">
+          <div class="card-grid card-grid-2">
+            <div class="card">
+              <h3>Operational Pain</h3>
+              <ul class="disc-list" style="margin-top:16px;">
+                <li><span class="disc-q-num">1</span><span>"Walk me through what happens when a nurse needs an infusion pump right now — what does that process actually look like on your floors?"</span></li>
+                <li><span class="disc-q-num">2</span><span>"What percentage of your supply budget do you estimate goes to waste, overstocking, or expired product each year — do you even have visibility into that number?"</span></li>
+                <li><span class="disc-q-num">3</span><span>"How does your BioMed team currently track PM schedules across all devices — and what falls through the cracks when a device moves between floors?"</span></li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3>Business Impact</h3>
+              <ul class="disc-list" style="margin-top:16px;">
+                <li><span class="disc-q-num">1</span><span>"Who owns the P&amp;L pain when equipment goes missing or supplies expire — is that nursing, supply chain, or does it roll up to the CFO?"</span></li>
+                <li><span class="disc-q-num">2</span><span>"If you could fix one operational problem in the next 90 days, what would it be — and what would that be worth in dollars or hours to the organization?"</span></li>
+                <li><span class="disc-q-num">3</span><span>"Have you tried RTLS or supply automation before? What happened — and what would need to be different for it to work this time?"</span></li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3>Decision &amp; Stakeholders</h3>
+              <ul class="disc-list" style="margin-top:16px;">
+                <li><span class="disc-q-num">1</span><span>"Who else is going to have an opinion on this decision — IT, nursing leadership, supply chain, finance — and who has the ability to block it?"</span></li>
+                <li><span class="disc-q-num">2</span><span>"What does success look like in 12 months — specifically, how will your leadership know this investment paid off?"</span></li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3>Budget &amp; Urgency</h3>
+              <ul class="disc-list" style="margin-top:16px;">
+                <li><span class="disc-q-num">1</span><span>"Is there budget already earmarked for this, or does it need to go through capital planning — and when is your next cycle?"</span></li>
+                <li><span class="disc-q-num">2</span><span>"Is there a specific deadline driving this — a Joint Commission audit, a new facility opening, a board commitment, a contract end date on a competing system?"</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- CS Discovery -->
+        <div class="m3-panel fade-in" data-role="cs">
+          <div class="card-grid card-grid-2">
+            <div class="card">
+              <h3>Value Realization</h3>
+              <ul class="disc-list" style="margin-top:16px;">
+                <li><span class="disc-q-num">1</span><span>"How are you currently measuring the ROI of Kontakt.io internally — what metrics are you using to tell the story to your leadership?"</span></li>
+                <li><span class="disc-q-num">2</span><span>"Which teams are getting the most value right now — and which teams have not fully adopted the platform yet?"</span></li>
+                <li><span class="disc-q-num">3</span><span>"What would make this an obvious renewal when the contract comes up — what outcome still needs to happen for you to feel that this paid off?"</span></li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3>Expansion Readiness</h3>
+              <ul class="disc-list" style="margin-top:16px;">
+                <li><span class="disc-q-num">1</span><span>"What is happening in your supply chain right now that is still causing pain — even with Asset Tracker deployed?"</span></li>
+                <li><span class="disc-q-num">2</span><span>"Has your CFO or COO asked about expanding the platform scope — or are you still in proving-value mode internally?"</span></li>
+                <li><span class="disc-q-num">3</span><span>"Are there additional facilities or departments not yet on the platform — and what is holding that expansion back?"</span></li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3>Health &amp; Risk Signals</h3>
+              <ul class="disc-list" style="margin-top:16px;">
+                <li><span class="disc-q-num">1</span><span>"Is your original champion still in role — or has there been a leadership change we should account for before renewal?"</span></li>
+                <li><span class="disc-q-num">2</span><span>"Has IT raised any concerns about performance or integration — anything unresolved we should address proactively?"</span></li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3>Nurse &amp; Patient Impact</h3>
+              <ul class="disc-list" style="margin-top:16px;">
+                <li><span class="disc-q-num">1</span><span>"Are you tracking nurse satisfaction scores — what are nurses saying specifically about equipment availability since going live on the platform?"</span></li>
+                <li><span class="disc-q-num">2</span><span>"Has leadership connected the Kontakt.io deployment to any Magnet or HCAHPS initiative — could this be a bigger story for your CNO's annual priorities?"</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- SDR Discovery -->
+        <div class="m3-panel fade-in" data-role="sdr">
+          <div class="card-grid card-grid-2">
+            <div class="card">
+              <h3>Qualifying &amp; Routing</h3>
+              <ul class="disc-list" style="margin-top:16px;">
+                <li><span class="disc-q-num">1</span><span>"Are you the right person to talk to about nurse equipment access — or supply chain efficiency? If not, who owns that at [Hospital]?"</span></li>
+                <li><span class="disc-q-num">2</span><span>"On a scale of 1 to 10, how confident are you that your nurses can find the equipment they need within 2 minutes right now?"</span></li>
+                <li><span class="disc-q-num">3</span><span>"Is supply waste or equipment availability the bigger operational headache for your team right now?"</span></li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3>Urgency &amp; ICP Fit</h3>
+              <ul class="disc-list" style="margin-top:16px;">
+                <li><span class="disc-q-num">1</span><span>"Is reducing supply waste or improving equipment availability something your team is actively working on — or is it stuck in the backlog?"</span></li>
+                <li><span class="disc-q-num">2</span><span>"Do you have a Joint Commission audit or new facility opening coming up — those are typically the moments when this becomes urgent for health systems."</span></li>
+                <li><span class="disc-q-num">3</span><span>"What does your current budget cycle look like — are you in active evaluation mode, or is this a next-year conversation?"</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ SECTION: COST OF INACTION ══════════════════════════════════════ -->
+    <section class="content-section bg-purple">
+      <div class="container">
+        <div class="section-header fade-in">
+          <span class="section-label" style="background:rgba(255,0,50,.25);color:#ff8fa3;border:1px solid rgba(255,0,50,.4);">Cost of Inaction</span>
+          <h2 id="m3-coi-heading" style="color:var(--white);">What it costs to <span class="highlight">wait</span></h2>
+          <div class="divider"></div>
+          <p style="margin-top:16px;color:rgba(255,255,255,.7);">Every month without Kontakt.io is a month of measurable, preventable loss — for the hospital, the teams, and the patients they serve.</p>
+        </div>
+
+        <div class="m3-stats-strip dark fade-in">
+          <div class="m3-stat-chip"><span class="m3-sc-val">$1,500</span><span class="m3-sc-label">Lost/Nurse/Month</span></div>
+          <div class="m3-stat-chip"><span class="m3-sc-val">$500K+</span><span class="m3-sc-label">Supply Waste/Yr (300-bed)</span></div>
+          <div class="m3-stat-chip"><span class="m3-sc-val">$125K</span><span class="m3-sc-label">Lost Every Quarter of Delay</span></div>
+          <div class="m3-stat-chip"><span class="m3-sc-val">90 days</span><span class="m3-sc-label">To First Measurable ROI</span></div>
+        </div>
+
+        <!-- AE COI -->
+        <div class="m3-panel active fade-in" data-role="ae">
+          <div class="card-grid card-grid-3" style="margin-bottom:28px;">
+            <div class="coi-stat"><div class="stat-num">$1,500</div><p>Lost per nurse per month in equipment-search productivity (60+ min/day × average RN labor cost)</p></div>
+            <div class="coi-stat"><div class="stat-num">$500K+</div><p>Annual supply waste at a 300-bed hospital from overstocking, expired product, and untracked rental fees</p></div>
+            <div class="coi-stat"><div class="stat-num">18%</div><p>Average annual nurse turnover — equipment frustration is consistently cited as a top driver in exit interviews</p></div>
+          </div>
+          <div class="card-grid card-grid-2">
+            <div class="m3-dark-card flip-card" role="button" tabindex="0" onclick="this.classList.toggle('flipped')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.classList.toggle('flipped')}"><div class="flip-card-inner"><div class="flip-card-front"><div><h3>The Patient Safety Risk</h3><p>Delayed care due to missing equipment is not just a productivity problem — it is a patient safety event. A nurse spending 45 minutes finding an IV pump is a nurse who is not at the bedside. Every delayed intervention compounds. This is an outcome your CNO cannot afford to be ambivalent about.</p><div class="coi-flip-hint"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="12" height="12"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"/></svg> How to position this</div></div></div><div class="flip-card-back"><div class="flip-back-label"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"/></svg> How to use this</div><p class="flip-talk">"Lead with your CNO: <em>'A nurse who can't find an IV pump in under 60 seconds is a nurse who is not at the bedside.'</em> Patient safety is not an operational concern — it is the mission. This framing moves the conversation from ROI to organizational identity."</p><div class="flip-hint flip-back-hint"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="13" height="13"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"/></svg> Flip back</div></div></div></div>
+            <div class="m3-dark-card flip-card" role="button" tabindex="0" onclick="this.classList.toggle('flipped')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.classList.toggle('flipped')}"><div class="flip-card-inner"><div class="flip-card-front"><div><h3>The Competitive Gap</h3><p>Peer health systems are deploying now. Hospitals that go live this year will have 12+ months of operational learning advantage by the time their competitors start evaluating. In healthcare, operational efficiency is a competitive differentiator — and the gap compounds every quarter you wait.</p><div class="coi-flip-hint"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="12" height="12"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"/></svg> How to position this</div></div></div><div class="flip-card-back"><div class="flip-back-label"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"/></svg> How to use this</div><p class="flip-talk">"For COO/CFO: <em>'Hospitals that deploy this year will have 12+ months of operational learning before their competitors begin evaluating. That gap compounds.'</em> Waiting is not a neutral choice — it is ceding operational advantage to whoever moves first."</p><div class="flip-hint flip-back-hint"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="13" height="13"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"/></svg> Flip back</div></div></div></div>
+            <div class="m3-dark-card flip-card" role="button" tabindex="0" onclick="this.classList.toggle('flipped')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.classList.toggle('flipped')}"><div class="flip-card-inner"><div class="flip-card-front"><div><h3>Compliance Exposure</h3><p>CMS and Joint Commission are increasing scrutiny on supply chain visibility and equipment maintenance compliance. Manual PM tracking creates an audit liability. One compliance gap can cost more in fines and reputation than a full platform deployment.</p><div class="coi-flip-hint"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="12" height="12"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"/></svg> How to position this</div></div></div><div class="flip-card-back"><div class="flip-back-label"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"/></svg> How to use this</div><p class="flip-talk">"Position with your CIO/CMO: <em>'Joint Commission auditors want to see documented PM compliance. Unlocatable devices create invisible audit risk that shows up at the worst possible moment.'</em> Frame as risk mitigation, not just operational efficiency."</p><div class="flip-hint flip-back-hint"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="13" height="13"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"/></svg> Flip back</div></div></div></div>
+            <div class="m3-dark-card flip-card" role="button" tabindex="0" onclick="this.classList.toggle('flipped')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.classList.toggle('flipped')}"><div class="flip-card-inner"><div class="flip-card-front"><div><h3>The Math — Personalize This</h3><p>A 300-bed hospital, 500 nurses: <strong>$750K/year</strong> in lost nursing productivity + <strong>$500K</strong> in supply waste = <strong>$1.25M/year</strong>. Quarterly delay = $312,500 walking out the door.</p><p>Use their actual bed count to run this live in every executive conversation. The number changes the room.</p><div class="coi-flip-hint"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="12" height="12"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"/></svg> How to position this</div></div></div><div class="flip-card-back"><div class="flip-back-label"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"/></svg> How to use this</div><p class="flip-talk">"Do this in the room, live. Ask for their bed count and run the math: <em>'At your size, we are talking $X per year in avoidable cost. The platform pays for itself in under 6 months. The question is how many more quarters you want to leave that money on the table.'</em>"</p><div class="flip-hint flip-back-hint"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="13" height="13"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"/></svg> Flip back</div></div></div></div>
+          </div>
+        </div>
+
+        <!-- CS COI -->
+        <div class="m3-panel fade-in" data-role="cs">
+          <div class="card-grid card-grid-3" style="margin-bottom:28px;">
+            <div class="coi-stat"><div class="stat-num">2x</div><p>Additional ROI left unrealized by customers who have not expanded to SCA — value a competitor can eventually claim</p></div>
+            <div class="coi-stat"><div class="stat-num">18 mo.</div><p>The churn risk window — customers who have not expanded by month 18 are significantly more likely to evaluate competitors</p></div>
+            <div class="coi-stat"><div class="stat-num">6 mo.</div><p>Average time needed for a new champion to re-establish buy-in after a sponsor departure — plan ahead, not reactively</p></div>
+          </div>
+          <div class="card-grid card-grid-2">
+            <div class="m3-dark-card flip-card" role="button" tabindex="0" onclick="this.classList.toggle('flipped')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.classList.toggle('flipped')}"><div class="flip-card-inner"><div class="flip-card-front"><div><h3>The Unrealized Value Gap</h3><p>Customers who deploy AT and do not expand to SCA are getting 6x ROI when they could be getting 8x. That 2x gap represents $500K–$1M in annual savings they are not capturing. That is the expansion story — and if you do not tell it proactively, a competitor will eventually offer it to them.</p><div class="coi-flip-hint"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="12" height="12"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"/></svg> How to position this</div></div></div><div class="flip-card-back"><div class="flip-back-label"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"/></svg> How to use this</div><p class="flip-talk">"Bring this to your QBR: <em>'You are capturing 6x ROI today. The customers who expand to SCA reach 8x — that additional 2x is $500K–$1M per year you are not capturing yet. That is the conversation I want to have before someone else brings it to you.'</em>"</p><div class="flip-hint flip-back-hint"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="13" height="13"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"/></svg> Flip back</div></div></div></div>
+            <div class="m3-dark-card flip-card" role="button" tabindex="0" onclick="this.classList.toggle('flipped')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.classList.toggle('flipped')}"><div class="flip-card-inner"><div class="flip-card-front"><div><h3>The Churn Window</h3><p>Low utilization leads to perceived low value, which leads to competitive evaluation — often quietly, before renewal. The fix is proactive: show ROI delivered and present SCA expansion as the natural next step well before the contract renewal window opens. Do not wait for the customer to raise it.</p><div class="coi-flip-hint"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="12" height="12"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"/></svg> How to position this</div></div></div><div class="flip-card-back"><div class="flip-back-label"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"/></svg> How to use this</div><p class="flip-talk">"Set the conversation 6 months before renewal: <em>'Customers who have not expanded to SCA by month 18 are the ones who end up in competitive evaluations. I don't want that for us. Let's talk about what expansion looks like now, while we have time to do it right.'</em>"</p><div class="flip-hint flip-back-hint"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="13" height="13"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"/></svg> Flip back</div></div></div></div>
+          </div>
+        </div>
+
+        <!-- SDR COI -->
+        <div class="m3-panel fade-in" data-role="sdr">
+          <div class="card-grid card-grid-3" style="margin-bottom:28px;">
+            <div class="coi-stat"><div class="stat-num">$125K</div><p>In supply waste and nursing productivity loss every quarter a 200-bed hospital waits to deploy</p></div>
+            <div class="coi-stat"><div class="stat-num">Quarter</div><p>Every quarter of delay is a quarter peer health systems pull further ahead operationally</p></div>
+            <div class="coi-stat"><div class="stat-num">90 days</div><p>Typical time from go-live to first measurable ROI — the sooner they start, the sooner they see it</p></div>
+          </div>
+          <div class="m3-dark-card">
+            <h3>How to use Cost of Inaction on a cold call or email</h3>
+            <p style="margin-bottom:12px;">"Every quarter you wait on this is another $125,000 in supply waste and nursing productivity loss — based on your bed count and the benchmarks we see across 800+ hospitals. That is not a scare tactic, that is just the math."</p>
+            <p>"The hospitals in your market that went live last year are already past full payback. The question is not whether to do this — it is whether you want to start this quarter or next year."</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ SECTION: WHY NOW ═══════════════════════════════════════════════ -->
+    <section class="content-section bg-cream">
+      <div class="container">
+        <div class="section-header fade-in">
+          <span class="section-label">Why Now</span>
+          <h2 id="m3-whynow-heading">The forces creating <span class="highlight">urgency today</span></h2>
+          <div class="divider"></div>
+          <p style="margin-top:16px;">Market timing, external pressure, and competitive dynamics — the reasons "later" always costs more than "now."</p>
+        </div>
+
+        <div class="m3-stats-strip fade-in">
+          <div class="m3-stat-chip"><span class="m3-sc-val">800+</span><span class="m3-sc-label">Hospitals Already Deployed</span></div>
+          <div class="m3-stat-chip"><span class="m3-sc-val">18%</span><span class="m3-sc-label">Nurse Turnover — Rising</span></div>
+          <div class="m3-stat-chip"><span class="m3-sc-val">30%</span><span class="m3-sc-label">Supply Cost Reduction Possible</span></div>
+          <div class="m3-stat-chip"><span class="m3-sc-val">Q+1</span><span class="m3-sc-label">Every Quarter = Wider Gap</span></div>
+        </div>
+
+        <!-- AE Why Now -->
+        <div class="m3-panel active fade-in" data-role="ae">
+          <div class="card-grid card-grid-3">
+            <div class="card m3-icon-card"><div class="card-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/></svg></div><h3>Budget Cycle Timing</h3><p>Most hospital fiscal years start October 1 or January 1. Capital planning happens 2–3 months before close. If you are not in the budget conversation by Q2, you are waiting another year. Get in front of the right people now — even for a next-year deal.</p></div>
+            <div class="card m3-icon-card"><div class="card-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0 0 12 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75Z"/></svg></div><h3>Regulatory Pressure</h3><p>CMS and Joint Commission are increasing supply chain visibility and equipment maintenance requirements. Manual logs and paper-based counts are no longer defensible at audit. Hospitals automating now arrive at audits with real-time data — not a spreadsheet from last quarter.</p></div>
+            <div class="card m3-icon-card"><div class="card-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z"/></svg></div><h3>Nursing Shortage &amp; Burnout</h3><p>The nursing shortage is structural and worsening. Hospitals cannot afford their remaining nurses spending 2+ hours per shift on logistics. Every efficiency gain is a retention tool. Kontakt.io is one of the few investments that pays nurses back in time from day one — and your CNO will connect that to turnover cost immediately.</p></div>
+            <div class="card m3-icon-card"><div class="card-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09Z"/></svg></div><h3>AI Mandate from Leadership</h3><p>CFOs and COOs are being asked by hospital boards to demonstrate AI ROI. SCA is one of the clearest, most measurable answers available: AI-driven supply routing with a quantifiable 30% cost reduction. Give your champion a story they can take upstairs with a number attached to it.</p></div>
+            <div class="card m3-icon-card"><div class="card-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 0 1 3 3h-15a3 3 0 0 1 3-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 0 1-.982-3.172M9.497 14.25a7.454 7.454 0 0 0 .981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 0 0 7.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M7.73 9.728a6.726 6.726 0 0 0 2.748 1.35m8.272-6.842V4.5c0 2.108-.966 3.99-2.48 5.228m2.48-5.492a46.32 46.32 0 0 1 2.916.52 6.003 6.003 0 0 1-5.395 4.972m0 0a6.726 6.726 0 0 1-2.749 1.35m0 0a6.772 6.772 0 0 1-3.044 0"/></svg></div><h3>Competitive Urgency — Use This</h3><p><strong>Example talk track:</strong> "Large health systems are accelerating RTLS rollouts system-wide right now. If you are in a competitive market, your CNO will be asked about your operational technology roadmap by the board. The hospitals that deploy first set the benchmark — and the gap compounds."</p></div>
+            <div class="card m3-icon-card"><div class="card-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 21v-7.5a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349M3.75 21V9.349m0 0a3.001 3.001 0 0 0 3.75-.615A2.993 2.993 0 0 0 9.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 0 0 2.25 1.016c.896 0 1.7-.393 2.25-1.015a3.001 3.001 0 0 0 3.75.614m-16.5 0a3.004 3.004 0 0 1-.621-4.72l1.189-1.19A1.5 1.5 0 0 1 5.378 3h13.243a1.5 1.5 0 0 1 1.06.44l1.19 1.189a3 3 0 0 1-.621 4.72M6.75 18h3.75a.75.75 0 0 0 .75-.75V13.5a.75.75 0 0 0-.75-.75H6.75a.75.75 0 0 0-.75.75v3.75c0 .414.336.75.75.75Z"/></svg></div><h3>Post-Pandemic Supply Chain Mandate</h3><p>COVID exposed catastrophic supply chain fragility in hospitals. Health systems are now under board mandate to build resilient, visible supply chains. SCA directly answers that mandate — and in many systems, there is dedicated budget attached to supply chain modernization that did not exist before 2020.</p></div>
+          </div>
+        </div>
+
+        <!-- CS Why Now -->
+        <div class="m3-panel fade-in" data-role="cs">
+          <div class="card-grid card-grid-2">
+            <div class="card m3-icon-card"><div class="card-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/></svg></div><h3>Renewal Window (90 Days Out)</h3><p>90 days before renewal is the optimal moment to show SCA value and plant the expansion seed. Too early and it feels like a sales pitch. Too late and procurement is already in evaluation mode. Trigger the expansion conversation in your next QBR if you are in that window.</p></div>
+            <div class="card m3-icon-card"><div class="card-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Z"/></svg></div><h3>New Hospital or Wing Opening</h3><p>A new facility opening is the single best expansion trigger in the portfolio. Infrastructure decisions are being made in real time. Get in front of facilities and IT during the planning phase — it is the lowest-friction, highest-impact moment to add SCA to the scope.</p></div>
+            <div class="card m3-icon-card"><div class="card-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/></svg></div><h3>New Executive Sponsor</h3><p>A new CNO, VP Supply Chain, or CIO is an executive reset. They want to put their mark on operational decisions. Kontakt.io — especially an SCA expansion — is a forward-thinking initiative they can claim. Position your conversation as giving them an early win to bring to their leadership team.</p></div>
+            <div class="card m3-icon-card"><div class="card-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z"/></svg></div><h3>Upcoming Joint Commission Audit</h3><p>JC audits create urgency around documentation and compliance that resonates with CNOs and VPs of Quality. The AT platform's PM tracking and SCA's supply visibility are both directly relevant to JC requirements. Time the SCA expansion conversation to land during audit prep — the value prop is self-evident in that context.</p></div>
+          </div>
+        </div>
+
+        <!-- SDR Why Now -->
+        <div class="m3-panel fade-in" data-role="sdr">
+          <div class="card-grid card-grid-2">
+            <div class="card m3-icon-card"><div class="card-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg></div><h3>Budget Window Language</h3><p><strong style="display:block;margin-bottom:6px;">Q1 / Q2:</strong>"Most hospitals are finalizing capital plans right now — this is the window to get in front of the right people before it closes for the year."<br><br><strong style="display:block;margin-bottom:6px;">Q3 / Q4:</strong>"If you can move before your fiscal year resets, we can start the deployment. If not, this is the time to get it locked into next year's plan — slots fill fast."</p></div>
+            <div class="card m3-icon-card"><div class="card-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 0 1-2.25 2.25M16.5 7.5V18a2.25 2.25 0 0 0 2.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 0 0 2.25 2.25h13.5M6 7.5h3v3H6v-3Z"/></svg></div><h3>Trigger Event Hooks</h3><p><strong style="display:block;margin-bottom:6px;">M&amp;A:</strong>"With the [System A] / [System B] merger, you are likely standardizing platforms across the combined system — this is the moment to get Kontakt.io in as the enterprise standard before the decision is made."<br><strong style="display:block;margin-bottom:6px;">Leadership change:</strong>"I saw [Name] just joined as your new CNO — new leaders typically evaluate operational infrastructure in the first 90 days. Good time for a conversation."<br><strong style="display:block;margin-bottom:6px;">New construction:</strong>"We noticed [Hospital] is opening a new tower — BLE infrastructure decisions are being made now. We can be built into the spec."</p></div>
+            <div class="card m3-icon-card"><div class="card-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/></svg></div><h3>Urgency Without Pressure</h3><p>"I am not trying to rush you — but the hospitals we are onboarding right now will have a full year of operational data and realized savings by the time you start evaluating. That gap compounds. I just want to make sure you have the information before the deployment window closes for this quarter."</p></div>
+            <div class="card m3-icon-card"><div class="card-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z"/></svg></div><h3>Implementation Availability</h3><p>"Our implementation team has capacity starting in [month] — those slots fill up 6–8 weeks out. If you want to be live before [relevant trigger date: fiscal year reset, JC audit, new facility opening], we would need to move in the next [X] weeks. Should I check what is available?"</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+  <script>
+
+    /* ── Scroll progress ── */
+    function updateProgress() {
+      const bar = document.getElementById('progress-bar');
+      if (!bar) return;
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = docHeight > 0 ? Math.min(100, (scrollTop / docHeight) * 100) : 0;
+      bar.style.width = pct + '%';
+    }
+    window.addEventListener('scroll', updateProgress, { passive: true });
+
+    /* ── Fade-in observer ── */
+    function triggerFadeIns() {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+        });
+      }, { threshold: 0.12 });
+      document.querySelectorAll('.fade-in').forEach(el => {
+        if (!el.classList.contains('visible')) observer.observe(el);
+      });
+    }
+
+    /* ── Module 3 role selector ── */
+    let m3Role = 'ae';
+
+    function selectM3Role(role) {
+      m3Role = role;
+      document.querySelectorAll('.m3-role-btn').forEach(btn => {
+        const isActive = btn.dataset.role === role;
+        btn.classList.toggle('active', isActive);
+      });
+      document.querySelectorAll('.m3-panel').forEach(panel => {
+        const show = panel.dataset.role === role;
+        panel.classList.toggle('active', show);
+        panel.style.display = '';
+      });
+      triggerFadeIns();
+    }
+
+    /* ── Boot ── */
+    document.addEventListener('DOMContentLoaded', () => {
+      triggerFadeIns();
+      updateProgress();
+      document.querySelectorAll('.flip-card').forEach(card => {
+        card.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); card.classList.toggle('flipped'); }
+        });
+      });
+    });
+
+  </script>
+</body>
+</html>
